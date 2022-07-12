@@ -13,5 +13,7 @@ public interface TaskService {
 	int markCompleted(int id);
 	
 	int delete(int id);
+	
+	boolean isTokenAccessValid2(String accessToken);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.test.todolist.auth.Authenticator;
+import com.test.todolist.auth.OAuthUtils;
 import com.test.todolist.bean.Task;
 import com.test.todolist.service.TaskService;
 
@@ -23,11 +24,16 @@ public class TaskController {
    
     @Autowired
     private TaskService taskService;
-	
-	@GetMapping("/loginTask")
-	public GoogleAuthorizationCodeFlow login() {
-		return Authenticator.newFlow();
+    
+    @PostMapping("/verifyToken")
+	public String verifyToken(@RequestBody String accessToken) {
+    	String rtnMsg = "token invalid";
+    	if(taskService.isTokenAccessValid2(accessToken)) {
+    		rtnMsg= "token valid";
+    	}
+		return rtnMsg;
 	}
+    
 	
 	@GetMapping("/list")
 	public List<Task> listTask() {

@@ -34,7 +34,12 @@ public class LoginCallbackServlet extends AbstractAuthorizationCodeCallbackServl
   @Override
   protected void onSuccess(HttpServletRequest request, HttpServletResponse response, Credential credential)
       throws IOException {
-    response.sendRedirect("/profile");
+	  StringBuilder htmlBuilder = new StringBuilder().append("<h1>Login successfully</h1>");
+	  String sessionId = request.getSession().getId();
+	  htmlBuilder.append("<h2>Welcome! "+OAuthUtils.getUserInfo(sessionId).getGivenName()+"</h2>");
+	  htmlBuilder.append("Your access token to be used: " + credential.getAccessToken());
+	  response.getWriter().print(htmlBuilder.toString());
+    //response.sendRedirect("/profile");
   }
 
   @Override
