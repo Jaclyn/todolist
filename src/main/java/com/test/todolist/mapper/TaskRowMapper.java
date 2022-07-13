@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.test.todolist.bean.Task;
+import com.test.todolist.db.bean.Task;
 
 public class TaskRowMapper implements RowMapper<Task> {
 

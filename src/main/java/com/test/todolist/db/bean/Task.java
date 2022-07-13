@@ -1,4 +1,4 @@
-package com.test.todolist.bean;
+package com.test.todolist.db.bean;
 
 import java.util.Date;
 
@@ -20,19 +20,25 @@ public class Task {
 	private Date creationDate;
 	private Date lastUpdatedDate;
 	private String status;
+	private String owner;
 	
 	public Task() {};
+	
+	public Task(int id) {
+		this.id = id;
+	}
 	
 	public Task(String description) {
 		this.description = description;
 	}
 
-	public Task(int id, String description, java.sql.Date creationDate, java.sql.Date lastUpdatedDate, String status) {
+	public Task(int id, String description, java.sql.Date creationDate, java.sql.Date lastUpdatedDate, String status, String owner) {
 		this.id = id;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.lastUpdatedDate = lastUpdatedDate;
 		this.status = status;
+		this.owner = owner;
 	}
 
 	public int getId() {
@@ -73,6 +79,14 @@ public class Task {
 
 	public void setLastUpdatedDate(Date lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	
 }

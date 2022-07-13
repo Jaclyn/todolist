@@ -2,17 +2,17 @@ package com.test.todolist.dao;
 
 import java.util.List;
 
-import com.test.todolist.bean.Task;
+import com.test.todolist.db.bean.Task;
 
 public interface TaskDao {
 	
-	List<Task> findAll();
+	List<Task> findAll(String owner);
 	
 	int addTask(Task task);
 	
-	Task findById(int id);
+	Task findById(Task task);
 	
-	int markCompleted(int id);
+	int markCompleted(Task task);
 	
-	int delete(int id);
+	int delete(Task task);
 }

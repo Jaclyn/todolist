@@ -1,19 +1,19 @@
 package com.test.todolist.service;
 
-import java.util.List;
-
-import com.test.todolist.bean.Task;
+import com.test.todolist.bean.ResponseBean;
+import com.test.todolist.bean.TaskListBean;
+import com.test.todolist.db.bean.Task;
 
 public interface TaskService {
 	
-	List<Task> findAll();
+	TaskListBean findAll();
 	
-	int add(Task task);
+	ResponseBean add(Task task);
 	
-	int markCompleted(int id);
+	ResponseBean markCompleted(Task task);
 	
-	int delete(int id);
+	ResponseBean delete(Task task);
 	
-	boolean isTokenAccessValid2(String accessToken);
+	boolean isTokenAccessValid(String accessToken) throws Exception;
 
 }
