@@ -3,7 +3,7 @@ FROM maven:3.6.3-jdk-8
 COPY ./ ./
 # package our application code
 RUN mvn clean package
+RUN apk --no-cache add ca-certificates
 
-RUN ls -la target/
 # set the startup command to execute the jar
 CMD ["java", "-jar", "target/todolist-0.0.1-SNAPSHOT.jar"]
