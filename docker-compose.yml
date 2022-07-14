@@ -1,17 +1,18 @@
 version: '3.8'
 services:
   db:
-    image: postgres:14.1-alpine
+    image: postgres:14.4
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=todo
     ports:
       - '5431:5431'
     volumes: 
       - db:/var/lib/postgresql/data
-      - /docker-entrypoint-initdb.d/init-database.sh
-      #- ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      #- ./db/init.sql:/docker-entrypoint-initdb.d/createDB.sql
 
   api:
     container_name: todo-api
@@ -23,7 +24,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      spring.datasource.url: jdbc:postgresql://localhost:5432/todo
+      spring.datasource.url: jdbc:postgresql://localhost:5431/todo
       spring.datasource.username: postgres
       spring.datasource.password: postgres
       spring.jpa.hibernate.ddl-auto: update

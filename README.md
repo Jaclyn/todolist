@@ -3,7 +3,7 @@
 README
 1.1. instruction for running the app<br/>
 Run command `docker-compose up` to start the application.<br/>
-Run command `docker-compose down` to start the application.
+Run command `docker-compose stop` to start the application.
 
 1.2. Instruction for testing the app
 
