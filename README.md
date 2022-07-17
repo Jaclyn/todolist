@@ -8,6 +8,11 @@ Run command `docker-compose stop` to start the application.
 1.2. Instruction for testing the app
 Requires at least Maven version 3.2.5 to run.<br/>
 Successfully run on Maven version 3.8.4 in Eclipse.<br/>
+Modified the file TodolistApplicationTests.java to make the value as below has the latest valid access token.<br/>
+To get the latest access token, please login using http://localhost:8080/login.
+
+        private String token = [latest access token]
+
 Run command `mvn test` to execute the test.
 
 1.3. Instruction for building the app
