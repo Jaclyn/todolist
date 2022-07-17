@@ -19,7 +19,13 @@ Run command `mvn test` to execute the test.
 Run command `docker-compose build` to build the application in docker.
 
 1.4. interface documentation
-Access to http://localhost:8080/login to login using gmail account and get the access token before calling the following service.
+Access to http://localhost:8080/login to login using gmail account and get the access token before calling the following service.<br/>
+To get the latest access token, please login using http://localhost:8080/login.<br/>
+In case no access token successfully retrieve, add the keywords "NoAuth" at the end of URL to access the non authentication version.<br/>
+
+For example: /list to /listNoAuth for non authentication acess
+
+
 
     API services available to call:
         1   /verifyToken

@@ -3,7 +3,7 @@ FROM maven:3.6.3-jdk-8
 COPY ./ ./
 
 # package our application code
-RUN mvn clean package
+RUN mvn clean package -DskipTests=true
 
 
 # set the startup command to execute the jar
