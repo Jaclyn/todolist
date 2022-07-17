@@ -3,8 +3,12 @@ package com.test.todolist.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +45,8 @@ public class TaskController {
 	@GetMapping("/list")
 	public TaskListBean listTask(@RequestHeader("Authorization") String auth) {
 		TaskListBean resp = new TaskListBean();
+		resp.setStatusCode(200);
+		
 		try {
 			if(taskService.isTokenAccessValid(auth)) {
 				resp = taskService.findAll();
@@ -59,9 +65,16 @@ public class TaskController {
 	@PostMapping("/add")
 	public ResponseBean addTask(@RequestHeader("Authorization") String auth, @RequestBody String description) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
+		
 		try {
 			if(taskService.isTokenAccessValid(auth)) {
-				resp = taskService.add(new Task(description));
+				if(description == null || description.trim().length()<1) {
+					resp.setRtnMsg("No task description is passed and thus no task is being added");
+					resp.setErrorFlag(CommonConstant.ERROR);
+				}else {
+					resp = taskService.add(new Task(description));
+				}
 			}else {
 				resp.setErrorFlag(CommonConstant.ERROR);
 				resp.setRtnMsg("Not authorized transaction");
@@ -76,9 +89,16 @@ public class TaskController {
 	@PostMapping("/delete")
 	public ResponseBean delete(@RequestHeader("Authorization") String auth,@RequestBody int id) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
+		
 		try {
 			if(taskService.isTokenAccessValid(auth)) {
-				resp = taskService.delete(new Task(id));
+				if(id <=0) {
+					resp.setRtnMsg("No Id is passed and thus no task is being deleted");
+					resp.setErrorFlag(CommonConstant.ERROR);
+				}else {
+					resp = taskService.delete(new Task(id));
+				}
 			}else {
 				resp.setErrorFlag(CommonConstant.ERROR);
 				resp.setRtnMsg("Not authorized transaction");
@@ -93,9 +113,16 @@ public class TaskController {
 	@PostMapping("/markComplete")
 	public ResponseBean updateTask(@RequestHeader("Authorization") String auth,@RequestBody int id) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
+		
 		try {
 			if(taskService.isTokenAccessValid(auth)) {
-				resp = taskService.markCompleted(new Task(id));
+				if(id <=0) {
+					resp.setRtnMsg("No Id is passed and thus no task is being mark as completed");
+					resp.setErrorFlag(CommonConstant.ERROR);
+				}else {
+					resp = taskService.markCompleted(new Task(id));
+				}
 			}else {
 				resp.setErrorFlag(CommonConstant.ERROR);
 				resp.setRtnMsg("Not authorized transaction");
@@ -110,6 +137,7 @@ public class TaskController {
 	@GetMapping("/listNoAuth")
 	public TaskListBean listTaskNoAuth() {
 		TaskListBean resp = new TaskListBean();
+		resp.setStatusCode(200);
 		try {
 
 			resp = taskService.findAll();
@@ -125,8 +153,15 @@ public class TaskController {
 	@PostMapping("/addNoAuth")
 	public ResponseBean addTaskNoAuth( @RequestBody String description) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
+		
 		try {
-			resp = taskService.add(new Task(description));
+			if(description == null || StringUtils.isEmpty(description)) {
+				resp.setRtnMsg("No task description is passed and thus no task is being added");
+				resp.setErrorFlag(CommonConstant.ERROR);
+			}else {
+				resp = taskService.add(new Task(description));
+			}
 		} catch (Exception e) {
 			resp.setErrorFlag(CommonConstant.ERROR);
 			resp.setRtnMsg(e.getMessage());
@@ -137,8 +172,14 @@ public class TaskController {
 	@PostMapping("/deleteNoAuth")
 	public ResponseBean deleteNoAuth(@RequestBody int id) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
 		try {
-			resp = taskService.delete(new Task(id));
+			if(id <=0) {
+				resp.setRtnMsg("No Id is passed and thus no task is being deleted");
+				resp.setErrorFlag(CommonConstant.ERROR);
+			}else {
+				resp = taskService.delete(new Task(id));
+			}
 		} catch (Exception e) {
 			resp.setErrorFlag(CommonConstant.ERROR);
 			resp.setRtnMsg(e.getMessage());
@@ -149,8 +190,14 @@ public class TaskController {
 	@PostMapping("/markCompleteNoAuth")
 	public ResponseBean updateTaskNoAuth(@RequestBody int id) {
 		ResponseBean resp = new ResponseBean();
+		resp.setStatusCode(200);
 		try {
-			resp = taskService.markCompleted(new Task(id));
+			if(id <=0) {
+				resp.setRtnMsg("No Id is passed and thus no task is being mark as completed");
+				resp.setErrorFlag(CommonConstant.ERROR);
+			}else {
+				resp = taskService.markCompleted(new Task(id));
+			}
 		} catch (Exception e) {
 			resp.setErrorFlag(CommonConstant.ERROR);
 			resp.setRtnMsg(e.getMessage());

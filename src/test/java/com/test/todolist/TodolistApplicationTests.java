@@ -25,7 +25,7 @@ class TodolistApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-	private String token = "ya29.A0AVA9y1vjNC-R1zLQ2C7FSPjLtfReh3EsGIZJgLUd79mWBufsl3hC0V8YQkLJt4b6aZeFdrCX_fVE6raXKIQxhm0iy5oBQwtxaZjwMmLgDqsGej-rhXMS4WUA4jGIII_chHbMV1eYCFjUDhenM61HHaJMI6B5YUNnWUtBVEFTQVRBU0ZRRTY1ZHI4YkJjdUtURHZhSzVZdUJZdzlnYlVfUQ0163";
+	private String token = "ya29.A0AVA9y1tVlSKFZTOHm1mJ9dvqL5zZPtceWUDFvqWUmhTwlOBO-bQNsHuUx9elkE4M0hSO7FgjwT0aqnTez-PpodOANrzSDHtLlQrIS7dkFA7iPgveqWF8DHX2a5-KeKq1aD2bRfKOABJFXtakh2t2Uc1_Di6cYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4WkZQUHotTzYzNFA0SGM4c1lCbks0Zw0163";
 	
 	@Test
 	void contextLoads() {
@@ -84,7 +84,7 @@ class TodolistApplicationTests {
        HttpHeaders headers = new HttpHeaders();
        headers.add("Authorization", token);
 
-       HttpEntity<String> request = new HttpEntity<>("Dancing", headers);
+       HttpEntity<String> request = new HttpEntity<>(" ", headers);
        
        // When
 	   ResponseEntity<ResponseBean> result = restTemplate.postForEntity( "http://localhost:8080/todolist/add" , request, ResponseBean.class);
@@ -105,7 +105,7 @@ class TodolistApplicationTests {
        HttpHeaders headers = new HttpHeaders();
        headers.add("Authorization", token);
 
-       HttpEntity<Integer> request = new HttpEntity<>(1, headers);
+       HttpEntity<Integer> request = new HttpEntity<>(0, headers);
        
        // When
 	   ResponseEntity<ResponseBean> result = restTemplate.postForEntity( "http://localhost:8080/todolist/delete" , request, ResponseBean.class);
@@ -126,7 +126,7 @@ class TodolistApplicationTests {
        HttpHeaders headers = new HttpHeaders();
        headers.add("Authorization", token);
 
-       HttpEntity<Integer> request = new HttpEntity<>(1, headers);
+       HttpEntity<Integer> request = new HttpEntity<>(0, headers);
        
        // When
 	   ResponseEntity<ResponseBean> result = restTemplate.postForEntity( "http://localhost:8080/todolist/markComplete" , request, ResponseBean.class);
