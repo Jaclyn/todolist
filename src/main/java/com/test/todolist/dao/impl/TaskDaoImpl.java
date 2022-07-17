@@ -24,58 +24,102 @@ public class TaskDaoImpl implements TaskDao{
 	
 	@Override
 	public List<Task> findAll(String owner) {
-		final String sql = "select * from task where owner = :owner";
+		if(owner != null) {
+			final String sql = "select * from task where owner = :owner";
+			
+			SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("owner", owner);
+			
+			return template.query(sql, param, new TaskRowMapper());
+		}else {
+			
+			return template.query("select * from task", new TaskRowMapper());
+		}
 		
-		SqlParameterSource param = new MapSqlParameterSource()
-		.addValue("owner", owner);
-		return template.query(sql, param, new TaskRowMapper());
 		//return template.query("select * from task where owner=", new TaskRowMapper());
 	}
 	
 
 	@Override
 	public int addTask(Task task) {
-		final String sql = "insert into task(id,description,creation_date,last_updated_date,status,owner) values (nextval('task_id'),:description,now(),now(),'A',:owner)";
+		if(task.getOwner() != null) {
+			final String sql = "insert into task(id,description,creation_date,last_updated_date,status,owner) values (nextval('task_id'),:description,now(),now(),'A',:owner)";
+	
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("description", task.getDescription())
+			.addValue("owner", task.getOwner());
 
-        KeyHolder holder = new GeneratedKeyHolder();
-        SqlParameterSource param = new MapSqlParameterSource()
-		.addValue("description", task.getDescription())
-		.addValue("owner", task.getOwner());
-        return template.update(sql,param, holder);
+	        return template.update(sql,param, holder);
+		}else {
+			final String sql = "insert into task(id,description,creation_date,last_updated_date,status) values (nextval('task_id'),:description,now(),now(),'A')";
+			
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("description", task.getDescription());
+
+	        return template.update(sql,param, holder);
+		}
 
 	}
 	
 	@Override
 	public int markCompleted(Task task) {
-		final String sql = "update task set status = 'C',last_updated_date=now() where id= :id and owner=:owner";
-
-        KeyHolder holder = new GeneratedKeyHolder();
-        SqlParameterSource param = new MapSqlParameterSource()
-		.addValue("id", task.getId())
-		.addValue("owner", task.getOwner());
-        return template.update(sql,param, holder);
+		if(task.getOwner() != null) {
+			final String sql = "update task set status = 'C',last_updated_date=now() where id= :id and owner=:owner";
+	
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("id", task.getId())
+			.addValue("owner", task.getOwner());
+	        return template.update(sql,param, holder);
+		}else {
+			final String sql = "update task set status = 'C',last_updated_date=now() where id= :id";
+			
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+			.addValue("id", task.getId());
+	        return template.update(sql,param, holder);
+		}
 
 	}
 
 	@Override
 	public Task findById(Task task) {
-		final String sql = "select * from task where id = :id  and owner=:owner";
-		
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("id", task.getId())
-				.addValue("owner", task.getOwner());
-		return template.query(sql, param, new TaskRowMapper()).get(0);
+		if(task.getOwner() != null) {
+			final String sql = "select * from task where id = :id  and owner=:owner";
+			
+			SqlParameterSource param = new MapSqlParameterSource()
+					.addValue("id", task.getId())
+					.addValue("owner", task.getOwner());
+			return template.query(sql, param, new TaskRowMapper()).get(0);
+		}else {
+			final String sql = "select * from task where id = :id";
+			
+			SqlParameterSource param = new MapSqlParameterSource()
+					.addValue("id", task.getId());
+			return template.query(sql, param, new TaskRowMapper()).get(0);
+		}
 	}
 
 	@Override
 	public int delete(Task task) {
-		final String sql = "delete from task where id= :id  and owner=:owner";
-
-        KeyHolder holder = new GeneratedKeyHolder();
-        SqlParameterSource param = new MapSqlParameterSource()
-        		.addValue("id", task.getId())
-        		.addValue("owner", task.getOwner());
-        return template.update(sql,param, holder);
+		if(task.getOwner() != null) {
+			final String sql = "delete from task where id= :id  and owner=:owner";
+	
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+	        		.addValue("id", task.getId())
+	        		.addValue("owner", task.getOwner());
+	        return template.update(sql,param, holder);
+		}else {
+			final String sql = "delete from task where id= :id";
+			
+	        KeyHolder holder = new GeneratedKeyHolder();
+	        SqlParameterSource param = new MapSqlParameterSource()
+	        		.addValue("id", task.getId());
+	        return template.update(sql,param, holder);
+		}
 	}
 	
 	
