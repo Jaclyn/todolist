@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -19,6 +20,7 @@ import com.test.todolist.db.bean.Task;
 import com.test.todolist.service.TaskService;
 
 @RestController
+@RequestMapping(path = "/todolist")
 public class TaskController {
 
 	@Autowired
@@ -28,18 +30,11 @@ public class TaskController {
 	private TaskService taskService;
 
 	@PostMapping("/verifyToken")
-	public String verifyToken(@RequestBody String accessToken) {
-		String rtnMsg = "token invalid";
-		try {
-			if(taskService.isTokenAccessValid(accessToken)) {
-				rtnMsg= "token valid";
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			rtnMsg = e.getMessage();
-		}
-		return rtnMsg;
+	//@PostMapping(path="/verifyToken", consumes = "application/json", produces = "application/json")
+	public ResponseBean verifyToken(@RequestBody String accessToken) {
+		ResponseBean resp = new ResponseBean();
+		resp = taskService.verifyToken(accessToken);
+		return resp;
 	}
 
 

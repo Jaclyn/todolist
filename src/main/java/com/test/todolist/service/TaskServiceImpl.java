@@ -104,6 +104,26 @@ public class TaskServiceImpl implements TaskService {
 		return bean;
 	}
 	
+	public ResponseBean verifyToken(String accessToken) {
+		String url = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token="+accessToken;
+		//Token response = restTemplate.getForObject(url, Token.class);
+		//if(response.getEmailVerified().equals("true"))return true;
+		ResponseBean bean = new ResponseBean();
+		bean.setStatusCode(HttpStatus.OK.value());
+		bean.setRtnMsg("Token is invalid");
+		
+		try {
+			if(isTokenAccessValid(accessToken)) {
+				bean.setRtnMsg("Token is valid");
+				bean.setErrorFlag(CommonConstant.NOT_ERROR);
+			}
+		} catch (Exception e) {
+			bean.setRtnMsg("Token is invalid");
+			bean.setErrorFlag(CommonConstant.ERROR);
+		}
+		return bean;
+	}
+	
 	public boolean isTokenAccessValid(String accessToken) throws Exception {
 		String url = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token="+accessToken;
 		//Token response = restTemplate.getForObject(url, Token.class);
@@ -132,5 +152,6 @@ public class TaskServiceImpl implements TaskService {
 	    }
 		return false;
 	}
+
 
 }

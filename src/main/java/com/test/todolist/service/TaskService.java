@@ -14,6 +14,8 @@ public interface TaskService {
 	
 	ResponseBean delete(Task task);
 	
+	ResponseBean verifyToken(String accessToken);
+	
 	boolean isTokenAccessValid(String accessToken) throws Exception;
 
 }
